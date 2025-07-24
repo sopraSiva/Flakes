@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Layout } from '../components/Layout';
 import { Button } from '../components/ui/Button';
 import { supabase, Database } from '../lib/supabase';
-import { useAuth } from '../contexts/AuthContext';
 import { X, Store, List, Globe, ArrowLeft } from 'lucide-react';
 
 type Store = Database['public']['Tables']['stores']['Row'];
@@ -20,7 +19,6 @@ export function CreateMessagePage() {
   const [showStorePickerModal, setShowStorePickerModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -115,7 +113,6 @@ export function CreateMessagePage() {
       return;
     }
 
-    if (!user) return;
 
     setLoading(true);
 
@@ -129,7 +126,7 @@ export function CreateMessagePage() {
           code: store.code,
           name: store.name,
         })),
-        user_id: user.id,
+        user_id: '00000000-0000-0000-0000-000000000000', // Default user ID for demo
       });
 
     if (error) {

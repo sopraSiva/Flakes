@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Layout } from '../components/Layout';
 import { Button } from '../components/ui/Button';
 import { supabase, Database } from '../lib/supabase';
-import { useAuth } from '../contexts/AuthContext';
 import { formatDate } from '../lib/utils';
 import { Plus, Eye, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -16,19 +15,16 @@ export function MessagesPage() {
   const [totalPages, setTotalPages] = useState(0);
   const [deleting, setDeleting] = useState<string | null>(null);
   const messagesPerPage = 10;
-  const { user } = useAuth();
   const navigate = useNavigate();
 
   const fetchMessages = async () => {
-    if (!user) return;
 
     setLoading(true);
     
     // Get total count for pagination
     const { count } = await supabase
       .from('messages')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id);
+      .select('*', { count: 'exact', head: true });
 
     setTotalPages(Math.ceil((count || 0) / messagesPerPage));
 
@@ -36,7 +32,6 @@ export function MessagesPage() {
     const { data, error } = await supabase
       .from('messages')
       .select('*')
-      .eq('user_id', user.id)
       .order('date_created', { ascending: false })
       .range(
         (currentPage - 1) * messagesPerPage,
@@ -54,7 +49,7 @@ export function MessagesPage() {
 
   useEffect(() => {
     fetchMessages();
-  }, [currentPage, user]);
+  }, [currentPage]);
 
   const handleDelete = async (messageId: string) => {
     if (!confirm('Are you sure you want to delete this message?')) return;
