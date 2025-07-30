@@ -8,9 +8,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link id="theme-css" rel="stylesheet" href="/src/styles/ThemeB.css">
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script type="module">
+      // Dynamic theme loading
+      import { themeConfig } from '/src/config/theme.js';
+      
+      const themeCssLink = document.getElementById('theme-css');
+      const activeTheme = themeConfig.activeTheme;
+      const themePath = themeConfig.themes[activeTheme].cssFile;
+      
+      themeCssLink.href = themePath;
+    </script>
   </body>
 </html>

@@ -141,31 +141,30 @@ export function CreateMessagePage() {
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex items-center space-x-4">
-          <Button
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
+          <button
             onClick={handleCancel}
-            variant="outline"
-            size="sm"
-            className="flex items-center space-x-2"
+            className="btn btn-secondary btn-sm"
+            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft style={{ width: '16px', height: '16px' }} />
             <span>Back to Messages</span>
-          </Button>
-          <h1 className="text-2xl font-bold text-gray-900">Create Message</h1>
+          </button>
+          <h1>Create Message</h1>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border p-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="card">
+          <form onSubmit={handleSubmit}>
             {errors.general && (
-              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
+              <div className="error-message">
                 {errors.general}
               </div>
             )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="lg:col-span-2">
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+            <div style={{ marginBottom: '24px' }}>
+              <div className="form-group">
+                <label htmlFor="title" className="form-label">
                   Subject
                 </label>
                 <input
@@ -174,16 +173,14 @@ export function CreateMessagePage() {
                   type="text"
                   value={formData.title}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    errors.title ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`form-input ${errors.title ? 'error' : ''}`}
                   placeholder="Enter message subject"
                 />
-                {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title}</p>}
+                {errors.title && <div className="error-message" style={{ marginTop: '8px' }}>{errors.title}</div>}
               </div>
 
-              <div className="lg:col-span-2">
-                <label htmlFor="body" className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="form-group">
+                <label htmlFor="body" className="form-label">
                   Message
                 </label>
                 <textarea
@@ -192,112 +189,104 @@ export function CreateMessagePage() {
                   rows={6}
                   value={formData.body}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    errors.body ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`form-textarea ${errors.body ? 'error' : ''}`}
                   placeholder="Enter your message content"
                 />
-                {errors.body && <p className="mt-1 text-sm text-red-600">{errors.body}</p>}
+                {errors.body && <div className="error-message" style={{ marginTop: '8px' }}>{errors.body}</div>}
               </div>
             </div>
 
             {/* Store Selection Buttons */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-medium text-gray-900">Store Selection</h3>
+            <div style={{ marginBottom: '24px' }}>
+              <h3 className="subheading">Store Selection</h3>
               
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <Button
+              <div className="store-selection-grid">
+                <button
                   type="button"
                   onClick={handleManualStoreInput}
-                  variant={storeSelectionMode === 'manual' ? 'primary' : 'outline'}
-                  className="h-20 flex flex-col items-center justify-center space-y-2"
+                  className={`store-selection-btn ${storeSelectionMode === 'manual' ? 'active' : ''}`}
                 >
-                  <Store className="h-6 w-6" />
-                  <span className="text-sm">Enter list of stores</span>
-                </Button>
+                  <Store style={{ width: '24px', height: '24px' }} />
+                  <span>Enter list of stores</span>
+                </button>
 
-                <Button
+                <button
                   type="button"
                   onClick={handleStorePickerOpen}
-                  variant={storeSelectionMode === 'picker' ? 'primary' : 'outline'}
-                  className="h-20 flex flex-col items-center justify-center space-y-2"
+                  className={`store-selection-btn ${storeSelectionMode === 'picker' ? 'active' : ''}`}
                 >
-                  <List className="h-6 w-6" />
-                  <span className="text-sm">Choose stores from list</span>
-                </Button>
+                  <List style={{ width: '24px', height: '24px' }} />
+                  <span>Choose stores from list</span>
+                </button>
 
-                <Button
+                <button
                   type="button"
                   onClick={handleSelectAllStores}
-                  variant={storeSelectionMode === 'all' ? 'primary' : 'outline'}
-                  className="h-20 flex flex-col items-center justify-center space-y-2"
+                  className={`store-selection-btn ${storeSelectionMode === 'all' ? 'active' : ''}`}
                 >
-                  <Globe className="h-6 w-6" />
-                  <span className="text-sm">Send to all stores</span>
-                </Button>
+                  <Globe style={{ width: '24px', height: '24px' }} />
+                  <span>Send to all stores</span>
+                </button>
 
-                <Button
+                <button
                   type="button"
                   onClick={handleCancel}
-                  variant="secondary"
-                  className="h-20 flex flex-col items-center justify-center space-y-2"
+                  className="store-selection-btn"
                 >
-                  <X className="h-6 w-6" />
-                  <span className="text-sm">Cancel action</span>
-                </Button>
+                  <X style={{ width: '24px', height: '24px' }} />
+                  <span>Cancel action</span>
+                </button>
               </div>
 
-              {errors.stores && <p className="text-sm text-red-600">{errors.stores}</p>}
+              {errors.stores && <div className="error-message">{errors.stores}</div>}
             </div>
 
             {/* Manual Store Input */}
             {storeSelectionMode === 'manual' && (
-              <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700">
+              <div className="form-group">
+                <label className="form-label">
                   Enter Store Codes (comma-separated)
                 </label>
-                <div className="flex space-x-2">
+                <div style={{ display: 'flex', gap: '8px' }}>
                   <input
                     type="text"
                     value={manualStoreInput}
                     onChange={(e) => setManualStoreInput(e.target.value)}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="form-input"
+                    style={{ flex: 1 }}
                     placeholder="e.g., STR001, STR002, STR003"
                   />
-                  <Button
+                  <button
                     type="button"
                     onClick={handleProcessManualStores}
-                    variant="outline"
+                    className="btn btn-secondary"
                   >
                     Process
-                  </Button>
+                  </button>
                 </div>
               </div>
             )}
 
             {/* Selected Stores Display */}
             {selectedStores.length > 0 && (
-              <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700">
+              <div className="form-group">
+                <label className="form-label">
                   Selected Stores ({selectedStores.length})
                 </label>
-                <div className="bg-gray-50 rounded-lg p-4 max-h-40 overflow-y-auto">
-                  <div className="space-y-2">
+                <div className="selected-stores">
+                  <div>
                     {selectedStores.map((store) => (
-                      <div
-                        key={store.id}
-                        className="flex items-center justify-between bg-white px-3 py-2 rounded border"
-                      >
-                        <span className="text-sm">
-                          <span className="font-medium">{store.code}</span> - {store.name}
-                          {store.area && <span className="text-gray-500"> ({store.area})</span>}
+                      <div key={store.id} className="store-item">
+                        <span>
+                          <strong>{store.code}</strong> - {store.name}
+                          {store.area && <span style={{ color: '#666666' }}> ({store.area})</span>}
                         </span>
                         <button
                           type="button"
                           onClick={() => removeSelectedStore(store.id)}
-                          className="text-red-500 hover:text-red-700"
+                          style={{ color: '#dc3545', background: 'none', border: 'none', cursor: 'pointer' }}
                         >
-                          <X className="h-4 w-4" />
+                          <X style={{ width: '16px', height: '16px' }} />
                         </button>
                       </div>
                     ))}
@@ -306,21 +295,21 @@ export function CreateMessagePage() {
               </div>
             )}
 
-            <div className="flex justify-end space-x-4 pt-6 border-t">
-              <Button
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '16px', paddingTop: '24px', borderTop: '2px solid #47207d', marginTop: '24px' }}>
+              <button
                 type="button"
                 onClick={handleCancel}
-                variant="outline"
+                className="btn btn-secondary"
               >
                 Cancel
-              </Button>
-              <Button
+              </button>
+              <button
                 type="submit"
                 disabled={loading}
-                variant="success"
+                className="btn btn-success"
               >
                 {loading ? 'Creating Message...' : 'Create Message'}
-              </Button>
+              </button>
             </div>
           </form>
         </div>
@@ -379,68 +368,74 @@ function StorePickerModal({ stores, selectedStores, onSubmit, onClose }: StorePi
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
-        <div className="p-6 border-b">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium">Select Stores</h3>
+    <div className="modal-overlay">
+      <div className="modal">
+        <div className="modal-header">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <h3 className="modal-title">Select Stores</h3>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#666666' }}
             >
-              <X className="h-6 w-6" />
+              <X style={{ width: '24px', height: '24px' }} />
             </button>
           </div>
           
-          <div className="mt-4 space-y-3">
+          <div style={{ marginTop: '16px' }}>
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="form-input"
               placeholder="Search stores..."
             />
             
-            <div className="flex space-x-2">
-              <Button
+            <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+              <button
                 type="button"
                 onClick={handleSelectAll}
-                variant="outline"
-                size="sm"
+                className="btn btn-secondary btn-sm"
               >
                 Select All ({filteredStores.length})
-              </Button>
-              <Button
+              </button>
+              <button
                 type="button"
                 onClick={handleDeselectAll}
-                variant="outline"
-                size="sm"
+                className="btn btn-secondary btn-sm"
               >
                 Deselect All
-              </Button>
+              </button>
             </div>
           </div>
         </div>
 
-        <div className="p-6 max-h-96 overflow-y-auto">
-          <div className="space-y-2">
+        <div className="modal-body">
+          <div>
             {filteredStores.map((store) => (
               <label
                 key={store.id}
-                className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"
+                style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '12px', 
+                  padding: '8px', 
+                  cursor: 'pointer',
+                  borderRadius: '4px',
+                  marginBottom: '8px'
+                }}
               >
                 <input
                   type="checkbox"
                   checked={tempSelectedIds.includes(store.id)}
                   onChange={() => handleToggleStore(store.id)}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  style={{ width: '16px', height: '16px' }}
                 />
-                <div className="flex-1">
-                  <div className="text-sm font-medium text-gray-900">
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
                     {store.code} - {store.name}
                   </div>
                   {store.area && (
-                    <div className="text-xs text-gray-500">{store.area}</div>
+                    <div style={{ fontSize: '11px', color: '#666666' }}>{store.area}</div>
                   )}
                 </div>
               </label>
@@ -448,25 +443,25 @@ function StorePickerModal({ stores, selectedStores, onSubmit, onClose }: StorePi
           </div>
         </div>
 
-        <div className="p-6 border-t flex justify-between items-center">
-          <span className="text-sm text-gray-600">
+        <div className="modal-footer">
+          <span style={{ fontSize: '12px', color: '#666666' }}>
             {tempSelectedIds.length} store{tempSelectedIds.length !== 1 ? 's' : ''} selected
           </span>
-          <div className="flex space-x-3">
-            <Button
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button
               type="button"
               onClick={onClose}
-              variant="outline"
+              className="btn btn-secondary"
             >
               Cancel
-            </Button>
-            <Button
+            </button>
+            <button
               type="button"
               onClick={handleSubmit}
-              variant="primary"
+              className="btn btn-primary"
             >
               Select Stores
-            </Button>
+            </button>
           </div>
         </div>
       </div>

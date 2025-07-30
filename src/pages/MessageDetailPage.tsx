@@ -31,78 +31,74 @@ export function MessageDetailPage() {
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex items-center space-x-4">
-          <Button
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
+          <button
             onClick={() => navigate('/messages')}
-            variant="outline"
-            size="sm"
-            className="flex items-center space-x-2"
+            className="btn btn-secondary btn-sm"
+            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft style={{ width: '16px', height: '16px' }} />
             <span>Back to Messages</span>
-          </Button>
-          <h1 className="text-2xl font-bold text-gray-900">Message Details</h1>
+          </button>
+          <h1>Message Details</h1>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
-          <div className="p-6 space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+        <div className="card">
+          <div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginBottom: '24px' }}>
+              <div className="form-group">
+                <label className="form-label">
                   Message ID
                 </label>
-                <p className="text-sm text-gray-900 font-mono bg-gray-50 px-3 py-2 rounded">
+                <p style={{ fontFamily: 'monospace', backgroundColor: '#f8f9fa', padding: '12px', borderRadius: '4px', border: '1px solid #e7e7e7' }}>
                   {message.id}
                 </p>
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="form-group">
+                <label className="form-label">
                   Date Created
                 </label>
-                <p className="text-sm text-gray-900 bg-gray-50 px-3 py-2 rounded">
+                <p style={{ backgroundColor: '#f8f9fa', padding: '12px', borderRadius: '4px', border: '1px solid #e7e7e7' }}>
                   {formatDate(message.date_created)}
                 </p>
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="form-group">
+              <label className="form-label">
                 Subject
               </label>
-              <p className="text-gray-900 bg-gray-50 px-3 py-2 rounded">
+              <p style={{ backgroundColor: '#f8f9fa', padding: '12px', borderRadius: '4px', border: '1px solid #e7e7e7' }}>
                 {message.title}
               </p>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="form-group">
+              <label className="form-label">
                 Message
               </label>
-              <div className="text-gray-900 bg-gray-50 px-3 py-2 rounded whitespace-pre-wrap">
+              <div style={{ backgroundColor: '#f8f9fa', padding: '12px', borderRadius: '4px', border: '1px solid #e7e7e7', whiteSpace: 'pre-wrap' }}>
                 {message.body}
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="form-group">
+              <label className="form-label">
                 Selected Stores ({selectedStores.length})
               </label>
               {selectedStores.length > 0 ? (
-                <div className="bg-gray-50 rounded-lg p-4 max-h-60 overflow-y-auto">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="selected-stores">
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '12px' }}>
                     {selectedStores.map((store: any, index: number) => (
-                      <div
-                        key={store.id || index}
-                        className="bg-white px-3 py-2 rounded border flex items-center space-x-2"
-                      >
-                        <Store className="h-4 w-4 text-gray-400" />
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-gray-900 truncate">
+                      <div key={store.id || index} className="store-item">
+                        <Store style={{ width: '16px', height: '16px', color: '#666666', marginRight: '8px' }} />
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <p style={{ fontWeight: 'bold', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                             {store.code}
                           </p>
-                          <p className="text-xs text-gray-500 truncate">
+                          <p style={{ fontSize: '11px', color: '#666666', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                             {store.name}
                           </p>
                         </div>
@@ -111,7 +107,7 @@ export function MessageDetailPage() {
                   </div>
                 </div>
               ) : (
-                <p className="text-gray-500 bg-gray-50 px-3 py-2 rounded">
+                <p style={{ color: '#666666', backgroundColor: '#f8f9fa', padding: '12px', borderRadius: '4px', border: '1px solid #e7e7e7' }}>
                   No stores selected
                 </p>
               )}

@@ -77,8 +77,8 @@ export function MessagesPage() {
   if (loading) {
     return (
       <Layout>
-        <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-900"></div>
+        <div className="loading">
+          <div className="spinner"></div>
         </div>
       </Layout>
     );
@@ -86,85 +86,82 @@ export function MessagesPage() {
 
   return (
     <Layout>
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">Messages</h1>
-          <Button
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+          <h1>Messages</h1>
+          <button
             onClick={() => navigate('/messages/create')}
-            variant="success"
-            size="lg"
-            className="flex items-center space-x-2"
+            className="btn btn-success btn-lg"
+            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
           >
-            <Plus className="h-5 w-5" />
+            <Plus style={{ width: '20px', height: '20px' }} />
             <span>Create Message</span>
-          </Button>
+          </button>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+        <div className="table-container">
+          <div style={{ overflowX: 'auto' }}>
+            <table className="table">
+              <thead>
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th>
                     ID
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th>
                     Date Created
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th>
                     Title
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th>
                     Body
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th style={{ textAlign: 'right' }}>
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody>
                 {messages.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan={5} style={{ textAlign: 'center', padding: '48px 24px', color: '#666666' }}>
                       No messages found. Create your first message to get started.
                     </td>
                   </tr>
                 ) : (
                   messages.map((message) => (
-                    <tr key={message.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-mono">
+                    <tr key={message.id}>
+                      <td style={{ whiteSpace: 'nowrap', fontFamily: 'monospace' }}>
                         {message.id.split('-')[0]}...
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td style={{ whiteSpace: 'nowrap' }}>
                         {formatDate(message.date_created)}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">
-                        {message.title}
+                      <td style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <span title={message.title}>{message.title}</span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-500 max-w-md truncate">
-                        {message.body}
+                      <td style={{ maxWidth: '400px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <span title={message.body}>{message.body}</span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <div className="flex items-center justify-end space-x-2">
-                          <Button
+                      <td style={{ whiteSpace: 'nowrap', textAlign: 'right' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
+                          <button
                             onClick={() => handleView(message)}
-                            variant="outline"
-                            size="sm"
-                            className="flex items-center space-x-1"
+                            className="btn btn-secondary btn-sm"
+                            style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
                           >
-                            <Eye className="h-4 w-4" />
+                            <Eye style={{ width: '16px', height: '16px' }} />
                             <span>View</span>
-                          </Button>
-                          <Button
+                          </button>
+                          <button
                             onClick={() => handleDelete(message.id)}
-                            variant="danger"
-                            size="sm"
+                            className="btn btn-danger btn-sm"
                             disabled={deleting === message.id}
-                            className="flex items-center space-x-1"
+                            style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
                           >
-                            <Trash2 className="h-4 w-4" />
+                            <Trash2 style={{ width: '16px', height: '16px' }} />
                             <span>{deleting === message.id ? 'Deleting...' : 'Delete'}</span>
-                          </Button>
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -177,33 +174,31 @@ export function MessagesPage() {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Button
+          <div className="pagination">
+            <div className="pagination-controls">
+              <button
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                variant="outline"
-                size="sm"
-                className="flex items-center space-x-1"
+                className="btn btn-secondary btn-sm"
+                style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft style={{ width: '16px', height: '16px' }} />
                 <span>Previous</span>
-              </Button>
-              <span className="text-sm text-gray-600">
+              </button>
+              <span className="pagination-info">
                 Page {currentPage} of {totalPages}
               </span>
-              <Button
+              <button
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                variant="outline"
-                size="sm"
-                className="flex items-center space-x-1"
+                className="btn btn-secondary btn-sm"
+                style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
               >
                 <span>Next</span>
-                <ChevronRight className="h-4 w-4" />
-              </Button>
+                <ChevronRight style={{ width: '16px', height: '16px' }} />
+              </button>
             </div>
-            <div className="text-sm text-gray-600">
+            <div className="pagination-info">
               Showing {Math.min((currentPage - 1) * messagesPerPage + 1, messages.length)} to{' '}
               {Math.min(currentPage * messagesPerPage, (currentPage - 1) * messagesPerPage + messages.length)} of{' '}
               {(totalPages - 1) * messagesPerPage + messages.length} messages
