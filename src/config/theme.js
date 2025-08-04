@@ -3,7 +3,7 @@
 // Available themes: 'ThemeA', 'ThemeB'
 
 export const themeConfig = {
-  activeTheme: 'ThemeA', // Change this to 'ThemeA' or 'ThemeB'
+  activeTheme: 'ThemeB', // Change this to 'ThemeA' or 'ThemeB'
   themes: {
     ThemeA: {
       name: 'Tesco Blue Theme',
